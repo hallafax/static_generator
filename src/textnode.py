@@ -17,5 +17,5 @@ class TextNode:
         return self.text == other.text and self.text_type == other.text_type and self.url == other.url
 
     def __repr__(self):
-        type = TextType(self.text_type).name
+        type = TextType(self.text_type).vaule
         return f"TextNode({self.text}, {type}, {self.url})"
