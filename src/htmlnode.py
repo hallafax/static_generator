@@ -25,10 +25,8 @@ class HTMLNode:
         return prop_string
     
 class LeafNode(HTMLNode):
-    def __init__(self, tag, value, children=None, props=None):
+    def __init__(self, tag, value, props=None):
         super().__init__(tag,value,None,props)
-        if children!=None:
-            raise Exception("cannot have children")
 
     def to_html(self):
         if self.value is None:
