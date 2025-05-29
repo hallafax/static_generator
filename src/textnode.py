@@ -33,8 +33,24 @@ def text_node_to_html_node(text_node):
         case TextType.CODE:
             return LeafNode("code",text_node.text)
         case TextType.LINK:
-            return LeafNode("a",text_node.text,None,{"href": text_node.url})
+            return LeafNode("a",text_node.text,{"href": text_node.url})
         case TextType.IMAGE:
-            return LeafNode("img","",None,{"src": text_node.url, "alt": text_node.text})
+            return LeafNode("img","",{"src": text_node.url, "alt": text_node.text})
         case _:
             raise Exception("unknown text type")
+
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    text_list = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            text_list.append(node.text)
+        elif node.text.count(delimiter) % 2 == 1:
+            raise SyntaxError("invalid Markdown syntax")
+        else:
+            split_list = node.text.split(delimiter)
+            for i in range(len(split_list)):
+                if i%2 == 0:
+                    text_list.append(TextNode(split_list[i],TextType.TEXT))
+                else:
+                    text_list.append(TextNode(split_list[i],text_type))
+    return text_list
